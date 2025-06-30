@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Gestión de Horarios - Estaciones de Policía</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container" id="container">
+      <div class="header">
+        <h1>
+          <i class="fas fa-shield-alt"></i> Sistema de Gestión de Horarios -
+          Policía
+        </h1>
+        <p>
+          Control y comparación de horarios de estaciones de policía y
+          cuadrantes
+        </p>
+        <div class="logo-badge">
+          <i class="fas fa-balance-scale"></i>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="card">
+          <div class="card-title">
+            <i class="fas fa-file-excel"></i>
+            <h2>Cargar Datos de Excel</h2>
+          </div>
+
+          <div class="file-upload-section">
+            <h3>📊 Cargar Reporte de Horarios</h3>
+            <p>
+              Seleccione el archivo Excel con la información de estaciones y
+              cuadrantes
+            </p>
+            <div class="file-input">
+              <label for="excel-file" class="file-label">
+                <i class="fas fa-file-upload"></i> Seleccionar Archivo Excel
+              </label>
+              <input type="file" id="excel-file" accept=".xlsx,.xls" />
+            </div>
+            <div id="file-info"></div>
+          </div>
+
+          <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Procesando archivo Excel...</p>
+          </div>
+
+          <div id="error-container"></div>
+          <div id="success-container"></div>
+        </div>
+
+        <div
+          class="comparison-section"
+          id="comparison-section"
+          style="display: none"
+        >
+          <div class="comparison-header">
+            <h3>📈 Resumen de Comparaciones</h3>
+            <p>Estadísticas generales del sistema</p>
+          </div>
+          <div class="stats-grid" id="stats-grid">
+            <!-- Estadísticas se llenarán con JavaScript -->
+          </div>
+
+          <div class="export-button-container">
+            <button id="export-pdf" class="btn btn-primary">
+              <i class="fas fa-file-pdf"></i> Exportar a PDF
+            </button>
+          </div>
+        </div>
+
+        <div class="summary-section">
+          <div class="station-summary">
+            <div class="summary-header">
+              <h3><i class="fas fa-building"></i> Resumen de Estaciones</h3>
+              <div class="search-container">
+                <input
+                  type="text"
+                  id="filtro-estaciones"
+                  class="search-filter"
+                  placeholder="Buscar estación..."
+                  oninput="sistemaPolicia.filtrarResumen('estaciones', this.value)"
+                />
+              </div>
+            </div>
+            <div id="stations-summary">
+              <!-- Resumen de estaciones se llenará con JavaScript -->
+            </div>
+          </div>
+
+          <div class="quadrant-summary">
+            <div class="summary-header">
+              <h3>
+                <i class="fas fa-map-marked-alt"></i> Resumen de Cuadrantes
+              </h3>
+              <div class="search-container">
+                <input
+                  type="text"
+                  id="filtro-cuadrantes"
+                  class="search-filter"
+                  placeholder="Buscar cuadrante o estación..."
+                  oninput="sistemaPolicia.filtrarResumen('cuadrantes', this.value)"
+                />
+              </div>
+            </div>
+            <div id="quadrants-summary">
+              <!-- Resumen de cuadrantes se llenará con JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Nueva sección para cuadrantes con alerta (31-45 min) -->
+        <div class="card" id="alert-section" style="display: none">
+          <div class="card-title">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h2>Cuadrantes en Alerta (31-45 min)</h2>
+          </div>
+          <div class="quadrants-list" id="alert-quadrants-container">
+            <!-- Cuadrantes en alerta se llenarán con JavaScript -->
+          </div>
+        </div>
+
+        <!-- Nueva sección para cuadrantes con retraso (46+ min) -->
+        <div class="card" id="delay-section" style="display: none">
+          <div class="card-title">
+            <i class="fas fa-times-circle"></i>
+            <h2>Cuadrantes en Retraso (46+ min)</h2>
+          </div>
+          <div class="quadrants-list" id="delay-quadrants-container">
+            <!-- Cuadrantes con retraso se llenarán con JavaScript -->
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <i class="fas fa-police-box"></i>
+            <h2>Estaciones de Policía</h2>
+          </div>
+          <div class="stations-grid" id="stations-container">
+            <!-- Tarjetas de estaciones se llenarán con JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Librerías para exportación PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
